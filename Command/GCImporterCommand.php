@@ -47,6 +47,7 @@ class GCImporterCommand extends ContainerAwareCommand
         $this->download($track->getUrl(), $path . '/' . basename($track->getUrl()), $output);
         $track->setPath($path . '/' . basename($track->getUrl()));
         $track->removeTag('todownload');
+        $this->getContainer()->get('pumukit.inspection')->autocompleteTrack($track);
     }
     private function download($src, $target, $output)
     {
