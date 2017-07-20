@@ -7,37 +7,46 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
-class GalicasterImporterCommand extends ContainerAwareCommand
+class GCImporterCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
             ->setName('pumukit:gcimporter:import')
             ->setDescription('Import Galicaster videos to shared folder')
-            ->addArgument('id', InputArgument::REQUIRED, 'MediaPackage ID');
+            ->addArgument('id', InputArgument::OPTIONAL, 'MediaPackage ID');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $dm = $this->getContainer()->get('doctrine_mongodb')->getManager();
-        $trackservice=$this->getContainer()->get('pumukitschema.track');
+        $trackservice = $this->getContainer()->get('pumukitschema.track');
         $multimediaobjectsRepo = $dm->getRepository('PumukitSchemaBundle:MultimediaObject');
-        $multimediaobject = $multimediaobjectsRepo->findOneBy(array('properties.galicaster' => $input->getArgument('id')));
-        if ($multimediaobject) {
-            foreach ($multimediaobject->getTracks() as $track) {
-                if ($track->containsTag('todownload') && $track->getUrl()) {
-                    $path = '/mnt/matternhorn/' . $input->getArgument('id') . '/' . $track->getId();
-                    if (!is_dir($path)) {
-                        mkdir($path, 0777, True);
+        if ($input->getArgument('id')) {
+            $multimediaobjects = array($multimediaobjectsRepo->findOneBy(array('properties.galicaster' => $input->getArgument('id'))));
+        }
+        else {
+            $multimediaobjects = $multimediaobjectsRepo->findBy(array('tracks.tags' => 'todownload'));
+        }
+        if ($multimediaobjects && $multimediaobjects[0]) {
+            foreach ($multimediaobjects as $multimediaobject) {
+                foreach ($multimediaobject->getTracks() as $track) {
+                    if ($track->containsTag('todownload') && $track->getUrl()) {
+                        $this->import($track, '/mnt/matternhorn/' . $multimediaobject->getProperty('galicaster') . '/' . $track->getId(), $output);
+                        $trackservice->updateTrackInMultimediaObject($multimediaobject, $track);
                     }
-                    $this->download($track->getUrl(), $path . '/' . basename($track->getUrl()), $output);
-                    $track->setPath($path . '/' . basename($track->getUrl()));
-                    $track->removeTag('todownload');
-                    $trackservice->updateTrackInMultimediaObject($multimediaobject,$track);
                 }
             }
-            
         }
+    }
+    private function import($track, $path, $output)
+    {
+        if (!is_dir($path)) {
+            mkdir($path, 0777, True);
+        }
+        $this->download($track->getUrl(), $path . '/' . basename($track->getUrl()), $output);
+        $track->setPath($path . '/' . basename($track->getUrl()));
+        $track->removeTag('todownload');
     }
     private function download($src, $target, $output)
     {

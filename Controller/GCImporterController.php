@@ -59,7 +59,6 @@ class GCImporterController extends Controller
     {
         $importService = $this->get('pumukit_gcimporter.import');
         $importService->importRecording($id, $request->get('invert'));
-        $this->importFiles($id);
         return $this->redirectToRoute('pumukit_gcimporter');
     }
 
@@ -88,13 +87,5 @@ class GCImporterController extends Controller
         }
 
         return $new_criteria;
-    }
-
-    private function importFiles($id)
-    {
-        $kernel = $this->get('kernel');
-        dump('su apache -c /usr/bin/php ' . $kernel->getRootDir() . '/console pumukit:gcimporter:import ' . $id);
-        $process = new Process('su apache -C /usr/bin/php ' . $kernel->getRootDir() . '/console pumukit:gcimporter:import ' . $id);
-        $process->start();
     }
 }
