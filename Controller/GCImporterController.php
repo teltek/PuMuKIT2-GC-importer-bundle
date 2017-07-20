@@ -24,7 +24,7 @@ class GCImporterController extends Controller
         }
         $client = $this->get('pumukit_gcimporter.client');
         $mp = $client->getMediaPackages();
-
+        $this->get('session')->set('gchost', $client->getHost());
         $criteria = $this->getCriteria($request);
         if (isset($criteria['name'])) {
             $mp =

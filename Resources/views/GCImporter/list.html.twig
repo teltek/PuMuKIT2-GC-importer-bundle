@@ -21,11 +21,11 @@
           </td>
         </tr>
         {% endif %}
-
+        {% set host = app.session.get('gchost') %}
         {% for mediaPackage in mediaPackages %}
         <tr>
           <td>
-            <a title="{% trans %}play in opencast{% endtrans %}" target="black" href="jjj?id={{mediaPackage.id}}">{% trans %}Play{% endtrans %}</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+            <a title="{% trans %}play in opencast{% endtrans %}" target="black" href="{{host}}/assets/paella_index.html?id={{mediaPackage.id}}">{% trans %}Play{% endtrans %}</a>&nbsp;&nbsp;|&nbsp;&nbsp;
             {% set import = 'import' %}
             {% for  multimediaObject in multimediaObjects %}
               {% if (multimediaObject.properties != null) and (multimediaObject.properties['galicaster'] == mediaPackage.id) %}
