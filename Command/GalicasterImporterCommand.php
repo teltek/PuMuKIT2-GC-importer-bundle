@@ -14,7 +14,6 @@ class GalicasterImporterCommand extends ContainerAwareCommand
         $this
             ->setName('pumukit:gcimporter:import')
             ->setDescription('Import Galicaster videos to shared folder')
-            ->addOption('invert', 'i', InputOption::VALUE_OPTIONAL, 'Inverted recording (CAMERA <-> SCREEN)')
             ->addArgument('id', InputArgument::REQUIRED, 'MediaPackage ID');
     }
 

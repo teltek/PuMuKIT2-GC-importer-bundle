@@ -55,10 +55,10 @@ class GCImporterController extends Controller
      * @Route("/gcimporter/import/{id}", name="pumukit_gcimporter_import")
      * @Template()
      */
-    public function importAction($id, $invert = false)
+    public function importAction($id, Request $request)
     {
         $importService = $this->get('pumukit_gcimporter.import');
-        $importService->importRecording($id, $invert);
+        $importService->importRecording($id, $request->get('invert'));
         $this->importFiles($id);
         return $this->redirectToRoute('pumukit_gcimporter');
     }
