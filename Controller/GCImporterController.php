@@ -44,8 +44,8 @@ class GCImporterController extends Controller
             $currentPageGalicasterIds[] = $mediaPackage['id'];
         }
         $repo = $repository_multimediaobjects->createQueryBuilder()
-            ->field('properties.opencast')->exists(true)
-            ->field('properties.opencast')->in($currentPageGalicasterIds)
+            ->field('properties.galicaster')->exists(true)
+            ->field('properties.galicaster')->in($currentPageGalicasterIds)
             ->getQuery()
             ->execute();
         return array('mediaPackages' => $pagerfanta, 'multimediaObjects' => $repo);
