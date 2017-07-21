@@ -30,9 +30,9 @@ class GCRemoverCommand extends ContainerAwareCommand
             $multimediaobject = $multimediaobjectsRepo->findOneBy(array('properties.galicaster' => $input->getOption('id')));
             $this->check($multimediaobject, $shared_path.$input->getOption('id'));
         } else {
-            $dirs=scandir($shared_path);
+            $dirs = scandir($shared_path);
             foreach ($dirs as $dir) {
-                if ($dir=='.'||$dir=='..') {
+                if ($dir == '.' || $dir == '..') {
                     continue;
                 }
                 $multimediaobject = $multimediaobjectsRepo->findOneBy(array('properties.galicaster' => $dir));
@@ -40,6 +40,7 @@ class GCRemoverCommand extends ContainerAwareCommand
             }
         }
     }
+
     private function check($multimediaobject, $path)
     {
         if ($multimediaobject || !is_dir($path)) {
@@ -47,13 +48,15 @@ class GCRemoverCommand extends ContainerAwareCommand
         }
         $this->remove($path);
     }
+
     private function remove($path)
     {
-        $files = glob($path . '/*');
+        $files = glob($path.'/*');
         foreach ($files as $file) {
             is_dir($file) ? $this->remove($file) : unlink($file);
         }
         rmdir($path);
+
         return;
     }
 }
