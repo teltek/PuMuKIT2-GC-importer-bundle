@@ -2,9 +2,9 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
     <body>
-      <trans-unit id="ccc3ab201e088eb8a2c4ae2d14beeb4d" resname="Opencast Importer">
-        <source>Opencast Importer</source>
-        <target>Opencast Importer</target>
+      <trans-unit id="ccc3ab201e088eb8a2c4ae2d14beeb4d" resname="Galicaster Importer">
+        <source>Galicaster Importer</source>
+        <target>Galicaster Importer</target>
       </trans-unit>
       <trans-unit id="bb1ca97ec761fc37101737ba0aa2e7c5" resname="ERROR">
         <source>ERROR</source>
@@ -58,9 +58,9 @@
         <source>There are no mediapackages with those values.</source>
         <target>There are no mediapackages with those values.</target>
       </trans-unit>
-      <trans-unit id="b754e0e9927059d42b166c04f3ef8975" resname="play in opencast">
-        <source>play in opencast</source>
-        <target>play in opencast</target>
+      <trans-unit id="b754e0e9927059d42b166c04f3ef8975" resname="play in galicaster">
+        <source>play in galicaster</source>
+        <target>play in galicaster</target>
       </trans-unit>
       <trans-unit id="de3c731be5633838089a07179d301d7b" resname="Play">
         <source>Play</source>
@@ -98,9 +98,9 @@
         <source>Cancel search</source>
         <target>Cancel search</target>
       </trans-unit>
-      <trans-unit id="967840de4334a3f36a61a835b080f063" resname="Edit Opencast file of multimedia object">
-        <source>Edit Opencast file of multimedia object</source>
-        <target>Edit Opencast file of multimedia object</target>
+      <trans-unit id="967840de4334a3f36a61a835b080f063" resname="Edit Galicaster file of multimedia object">
+        <source>Edit Galicaster file of multimedia object</source>
+        <target>Edit Galicaster file of multimedia object</target>
       </trans-unit>
       <trans-unit id="c3e53f75912bdea8c95c7ae9851d659a" resname="File info of multimedia object">
         <source>File info of multimedia object</source>
@@ -114,13 +114,13 @@
         <source>Transcode to profile</source>
         <target>Transcode to profile</target>
       </trans-unit>
-      <trans-unit id="d558bba8df660191517b4fec78783e88" resname="Opencast Matterhorn Recording">
-        <source>Opencast Matterhorn Recording</source>
-        <target>Opencast Matterhorn Recording</target>
+      <trans-unit id="d558bba8df660191517b4fec78783e88" resname="Galicaster Matterhorn Recording">
+        <source>Galicaster Matterhorn Recording</source>
+        <target>Galicaster Matterhorn Recording</target>
       </trans-unit>
-      <trans-unit id="00da4a0903d7faecfeb939d677e211ca" resname="opencast track info">
-        <source>opencast track info</source>
-        <target>opencast track info</target>
+      <trans-unit id="00da4a0903d7faecfeb939d677e211ca" resname="galicaster track info">
+        <source>galicaster track info</source>
+        <target>galicaster track info</target>
       </trans-unit>
       <trans-unit id="52d75534a246ed7c58239ab61d736cfb" resname="URLs for images">
         <source>URLs for images</source>
@@ -138,9 +138,9 @@
         <source>OK</source>
         <target>OK</target>
       </trans-unit>
-      <trans-unit id="a0a7b04286793b4b5812c07b4ec10475" resname="update Opencast track of Multimedia Object">
-        <source>update Opencast track of Multimedia Object</source>
-        <target>update Opencast track of Multimedia Object</target>
+      <trans-unit id="a0a7b04286793b4b5812c07b4ec10475" resname="update Galicaster track of Multimedia Object">
+        <source>update Galicaster track of Multimedia Object</source>
+        <target>update Galicaster track of Multimedia Object</target>
       </trans-unit>
       <trans-unit id="befcc65c57d8bf87d3b1cc3f52dcff0b" resname="Track successfully updated.">
         <source>Track successfully updated.</source>
