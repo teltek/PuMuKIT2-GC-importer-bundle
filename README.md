@@ -13,3 +13,4 @@ $ php app/console cache:clear
 $ php app/console cache:clear --env=prod
 $ php app/console assets:install
 ```
+3. Follow our [Configuration Guide](Resources/doc/ConfigurationGuide.md) to learn how to configure this bundle adding the necessary parameters from your GC Web Panel.
