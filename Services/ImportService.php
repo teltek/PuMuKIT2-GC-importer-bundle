@@ -55,8 +55,7 @@ class ImportService
         $seriesGalicasterId = $this->getMediaPackageField($mediaPackage, 'series');
         if ($seriesGalicasterId) {
             $series = $seriesRepo->findOneBy(array('properties.opencast' => $seriesGalicasterId));
-        }
-        else {
+        } else {
             $series = $seriesRepo->findOneBy(array('properties.opencast' => 'default'));
         }
         if (!$series) {
@@ -82,7 +81,6 @@ class ImportService
             $properties = $this->getMediaPackageField($mediaPackage, 'id');
             if ($properties) {
                 $multimediaObject->setProperty('galicaster', $properties);
-
             }
             $multimediaObject->setProperty('opencastinvert', boolval($invert));
 
@@ -94,8 +92,7 @@ class ImportService
             $language = $this->getMediaPackageField($mediaPackage, 'language');
             if ($language) {
                 $multimediaObject->setProperty('opencastlanguage', strtolower($language));
-            }
-            else {
+            } else {
                 $multimediaObject->setProperty('opencastlanguage', \Locale::getDefault());
             }
 
@@ -110,8 +107,7 @@ class ImportService
                 for ($i = 0; $i < count($tracks); ++$i) {
                     $track = $this->createTrackFromMediaPackage($mediaPackage, $multimediaObject, $i);
                 }
-            }
-            else {
+            } else {
                 // NOTE: Single track
                 $track = $this->createTrackFromMediaPackage($mediaPackage, $multimediaObject);
             }
@@ -122,8 +118,7 @@ class ImportService
                 for ($j = 0; $j < count($attachment); ++$j) {
                     $multimediaObject = $this->createPicFromAttachment($attachment, $multimediaObject, $j);
                 }
-            }
-            else {
+            } else {
                 $multimediaObject = $this->createPicFromAttachment($attachment, $multimediaObject);
             }
 
@@ -135,9 +130,9 @@ class ImportService
             }
 
             $multimediaObject = $this->mmsService->updateMultimediaObject($multimediaObject);
-            return TRUE;
+            return true;
         }
-        return FALSE;
+        return false;
     }
 
     private function importSeries($mediaPackage)
@@ -148,8 +143,7 @@ class ImportService
         if ($seriesGalicasterId) {
             $title = $this->getMediaPackageField($mediaPackage, 'seriestitle');
             $properties = $seriesGalicasterId;
-        }
-        else {
+        } else {
             $title = 'MediaPackages without series';
             $properties = 'default';
         }
@@ -188,12 +182,10 @@ class ImportService
         if ($tracks) {
             if (null === $index) {
                 $galicasterTrack = $tracks;
-            }
-            else {
+            } else {
                 $galicasterTrack = $tracks[$index];
             }
-        }
-        else {
+        } else {
             return null;
         }
 
@@ -211,8 +203,7 @@ class ImportService
             for ($i = 0; $i < count($tags); ++$i) {
                 $track = $this->addTagToTrack($tags, $track, $i);
             }
-        }
-        else {
+        } else {
             // NOTE: Single tag
             $track = $this->addTagToTrack($tags, $track);
         }
@@ -221,8 +212,6 @@ class ImportService
         if ($url) {
             $track->setUrl($this->client->getHost() . $url);
             //$track->setPath($this->client->getHost() . $url);
-
-
         }
 
         $mime = $this->getMediaPackageField($galicasterTrack, 'mimetype');
@@ -256,8 +245,7 @@ class ImportService
 
         if (!$track->getVcodec() && $track->getAcodec()) {
             $track->setOnlyAudio(true);
-        }
-        else {
+        } else {
             $track->setOnlyAudio(false);
         }
 
@@ -285,8 +273,7 @@ class ImportService
         if ($attachment) {
             if (null === $index) {
                 $itemAttachment = $attachment;
-            }
-            else {
+            } else {
                 $itemAttachment = $attachment[$index];
             }
             $type = $this->getMediaPackageField($itemAttachment, 'type');
@@ -317,8 +304,7 @@ class ImportService
         if ($tags) {
             if (null === $index) {
                 $tag = $tags;
-            }
-            else {
+            } else {
                 $tag = $tags[$index];
             }
             if (!$track->containsTag($tag)) {

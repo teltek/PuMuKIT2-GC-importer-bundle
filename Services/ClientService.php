@@ -84,8 +84,7 @@ class ClientService
         if ($out['status'] != 302) {
             if ($out['status'] != 200) {
                 throw new \Exception(sprintf('Error %s Processing Request (%s)', $out['status'], $this->host . '/auth/login'), 1);
-            }
-            else {
+            } else {
                 throw new \Exception(sprintf('Galicaster Web Panel Authentication Failed', $out['status'], $this->host . '/auth/login'), 1);
             }
         }
@@ -99,7 +98,8 @@ class ClientService
         }
         return $decode;
     }
-    public function getHost(){
+    public function getHost()
+    {
         return $this->host;
     }
 }

@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Pagerfanta\Adapter\FixedAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\Request;
+
 /**
  * @Route("/admin")
  */
@@ -28,8 +29,8 @@ class GCImporterController extends Controller
         if (isset($criteria['name'])) {
             $mp =
                 array_filter($mp, function ($e) use ($criteria) {
-                return (strpos($e['title'], $criteria['name']->regex) !== false);
-            });
+                    return (strpos($e['title'], $criteria['name']->regex) !== false);
+                });
         }
         $adapter = new FixedAdapter(count($mp), $mp);
         $pagerfanta = new Pagerfanta($adapter);
@@ -57,7 +58,7 @@ class GCImporterController extends Controller
     public function importAction($id, Request $request)
     {
         $importService = $this->get('pumukit_gcimporter.import');
-        if(!$importService->importRecording($id, $request->get('invert'))){
+        if (!$importService->importRecording($id, $request->get('invert'))) {
             throw new \Exception(sprintf('Error Importing MediaPackage %s', $id));
         }
         return $this->redirectToRoute('pumukit_gcimporter');
@@ -72,8 +73,7 @@ class GCImporterController extends Controller
 
         if (array_key_exists('reset', $criteria)) {
             $this->get('session')->remove('admin/gcimporter/criteria');
-        }
-        elseif ($criteria) {
+        } elseif ($criteria) {
             $this->get('session')->set('admin/gcimporter/criteria', $criteria);
         }
         $criteria = $this->get('session')->get('admin/gcimporter/criteria', array());

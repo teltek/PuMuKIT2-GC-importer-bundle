@@ -15,7 +15,7 @@ class GCImporterCommand extends ContainerAwareCommand
             ->setName('pumukit:gcimporter:import')
             ->setDescription('Import Galicaster videos to shared folder')
             ->addArgument('shared_path', InputArgument::REQUIRED, 'Pumukit shared path')
-            ->addOption('id', 'id',InputOption::VALUE_OPTIONAL, 'MediaPackage ID');
+            ->addOption('id', 'id', InputOption::VALUE_OPTIONAL, 'MediaPackage ID');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -27,8 +27,7 @@ class GCImporterCommand extends ContainerAwareCommand
         $shared_path = ('/' == substr($shared_path, -1)) ? $shared_path : $shared_path . '/';
         if ($input->getOption('id')) {
             $multimediaobjects = array($multimediaobjectsRepo->findOneBy(array('properties.galicaster' => $input->getOption('id'))));
-        }
-        else {
+        } else {
             $multimediaobjects = $multimediaobjectsRepo->findBy(array('tracks.tags' => 'todownload'));
         }
         if ($multimediaobjects && $multimediaobjects[0]) {
@@ -45,7 +44,7 @@ class GCImporterCommand extends ContainerAwareCommand
     private function import($track, $path, $output)
     {
         if (!is_dir($path)) {
-            mkdir($path, 0777, True);
+            mkdir($path, 0777, true);
         }
         $this->download($track->getUrl(), $path . '/' . basename($track->getUrl()), $output);
         $track->setPath($path . '/' . basename($track->getUrl()));
