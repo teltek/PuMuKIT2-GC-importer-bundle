@@ -36,7 +36,7 @@ class GCImporterController extends Controller
         $pagerfanta = new Pagerfanta($adapter);
 
         //$pagerfanta->setAllowOutOfRangePages(false);
-        $pagerfanta->setMaxPerPage(1);
+        $pagerfanta->setMaxPerPage(10);
         $pagerfanta->setCurrentPage($request->get('page', 1));
         $repository_multimediaobjects = $this->get('doctrine_mongodb')->getRepository('PumukitSchemaBundle:MultimediaObject');
         $currentPageGalicasterIds = array();
@@ -58,7 +58,9 @@ class GCImporterController extends Controller
     public function importAction($id, Request $request)
     {
         $importService = $this->get('pumukit_gcimporter.import');
-        $importService->importRecording($id, $request->get('invert'));
+        if(!$importService->importRecording($id, $request->get('invert'))){
+            throw new \Exception(sprintf('Error Importing MediaPackage %s', $id));
+        }
         return $this->redirectToRoute('pumukit_gcimporter');
     }
 

@@ -135,8 +135,9 @@ class ImportService
             }
 
             $multimediaObject = $this->mmsService->updateMultimediaObject($multimediaObject);
-
+            return TRUE;
         }
+        return FALSE;
     }
 
     private function importSeries($mediaPackage)
