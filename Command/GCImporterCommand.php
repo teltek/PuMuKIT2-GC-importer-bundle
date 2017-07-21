@@ -14,7 +14,8 @@ class GCImporterCommand extends ContainerAwareCommand
         $this
             ->setName('pumukit:gcimporter:import')
             ->setDescription('Import Galicaster videos to shared folder')
-            ->addArgument('id', InputArgument::OPTIONAL, 'MediaPackage ID');
+            ->addArgument('shared_path', InputArgument::REQUIRED, 'Pumukit shared path')
+            ->addOption('id', 'id',InputOption::VALUE_OPTIONAL, 'MediaPackage ID');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -22,8 +23,10 @@ class GCImporterCommand extends ContainerAwareCommand
         $dm = $this->getContainer()->get('doctrine_mongodb')->getManager();
         $trackservice = $this->getContainer()->get('pumukitschema.track');
         $multimediaobjectsRepo = $dm->getRepository('PumukitSchemaBundle:MultimediaObject');
-        if ($input->getArgument('id')) {
-            $multimediaobjects = array($multimediaobjectsRepo->findOneBy(array('properties.galicaster' => $input->getArgument('id'))));
+        $shared_path = $input->getArgument('shared_path');
+        $shared_path = ('/' == substr($shared_path, -1)) ? $shared_path : $shared_path . '/';
+        if ($input->getOption('id')) {
+            $multimediaobjects = array($multimediaobjectsRepo->findOneBy(array('properties.galicaster' => $input->getOption('id'))));
         }
         else {
             $multimediaobjects = $multimediaobjectsRepo->findBy(array('tracks.tags' => 'todownload'));
@@ -32,7 +35,7 @@ class GCImporterCommand extends ContainerAwareCommand
             foreach ($multimediaobjects as $multimediaobject) {
                 foreach ($multimediaobject->getTracks() as $track) {
                     if ($track->containsTag('todownload') && $track->getUrl()) {
-                        $this->import($track, '/mnt/matternhorn/' . $multimediaobject->getProperty('galicaster') . '/' . $track->getId(), $output);
+                        $this->import($track, $shared_path . $multimediaobject->getProperty('galicaster') . '/' . $track->getId(), $output);
                         $trackservice->updateTrackInMultimediaObject($multimediaobject, $track);
                     }
                 }
