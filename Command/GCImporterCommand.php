@@ -1,4 +1,5 @@
 <?php
+
 namespace Pumukit\GCImporterBundle\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,7 +25,7 @@ class GCImporterCommand extends ContainerAwareCommand
         $trackservice = $this->getContainer()->get('pumukitschema.track');
         $multimediaobjectsRepo = $dm->getRepository('PumukitSchemaBundle:MultimediaObject');
         $shared_path = $input->getArgument('shared_path');
-        $shared_path = ('/' == substr($shared_path, -1)) ? $shared_path : $shared_path . '/';
+        $shared_path = ('/' == substr($shared_path, -1)) ? $shared_path : $shared_path.'/';
         if ($input->getOption('id')) {
             $multimediaobjects = array($multimediaobjectsRepo->findOneBy(array('properties.galicaster' => $input->getOption('id'))));
         } else {
@@ -34,23 +35,25 @@ class GCImporterCommand extends ContainerAwareCommand
             foreach ($multimediaobjects as $multimediaobject) {
                 foreach ($multimediaobject->getTracks() as $track) {
                     if ($track->containsTag('todownload') && $track->getUrl()) {
-                        $this->import($track, $shared_path . $multimediaobject->getProperty('galicaster') . '/' . $track->getId(), $output);
+                        $this->import($track, $shared_path.$multimediaobject->getProperty('galicaster').'/'.$track->getId(), $output);
                         $trackservice->updateTrackInMultimediaObject($multimediaobject, $track);
                     }
                 }
             }
         }
     }
+
     private function import($track, $path, $output)
     {
         if (!is_dir($path)) {
             mkdir($path, 0777, true);
         }
-        $this->download($track->getUrl(), $path . '/' . basename($track->getUrl()), $output);
-        $track->setPath($path . '/' . basename($track->getUrl()));
+        $this->download($track->getUrl(), $path.'/'.basename($track->getUrl()), $output);
+        $track->setPath($path.'/'.basename($track->getUrl()));
         $track->removeTag('todownload');
         $this->getContainer()->get('pumukit.inspection')->autocompleteTrack($track);
     }
+
     private function download($src, $target, $output)
     {
         $output->writeln('Downloading multimedia files to init the database:');
@@ -72,6 +75,7 @@ class GCImporterCommand extends ContainerAwareCommand
         curl_close($ch);
         $progress->finish();
         $output->writeln('');
+
         return 200 == $statusCode;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Pumukit\GCImporterBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -29,7 +30,7 @@ class GCImporterController extends Controller
         if (isset($criteria['name'])) {
             $mp =
                 array_filter($mp, function ($e) use ($criteria) {
-                    return (strpos($e['title'], $criteria['name']->regex) !== false);
+                    return strpos($e['title'], $criteria['name']->regex) !== false;
                 });
         }
         $adapter = new FixedAdapter(count($mp), $mp);
@@ -48,6 +49,7 @@ class GCImporterController extends Controller
             ->field('properties.galicaster')->in($currentPageGalicasterIds)
             ->getQuery()
             ->execute();
+
         return array('mediaPackages' => $pagerfanta, 'multimediaObjects' => $repo);
     }
 
@@ -61,6 +63,7 @@ class GCImporterController extends Controller
         if (!$importService->importRecording($id, $request->get('invert'))) {
             throw new \Exception(sprintf('Error Importing MediaPackage %s', $id));
         }
+
         return $this->redirectToRoute('pumukit_gcimporter');
     }
 
@@ -83,7 +86,7 @@ class GCImporterController extends Controller
         foreach ($criteria as $property => $value) {
             //preg_match('/^\/.*?\/[imxlsu]*$/i', $e)
             if ('' !== $value) {
-                $new_criteria[$property] = new \MongoRegex('/' . $value . '/i');
+                $new_criteria[$property] = new \MongoRegex('/'.$value.'/i');
             }
         }
 

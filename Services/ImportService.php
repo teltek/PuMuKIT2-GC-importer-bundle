@@ -1,4 +1,5 @@
 <?php
+
 namespace Pumukit\GCImporterBundle\Services;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
@@ -10,7 +11,6 @@ use Pumukit\SchemaBundle\Document\MultimediaObject;
 use Pumukit\SchemaBundle\Document\Series;
 use Pumukit\SchemaBundle\Document\Track;
 use Pumukit\SchemaBundle\Document\Pic;
-use Pumukit\SchemaBundle\Document\User;
 use Pumukit\InspectionBundle\Services\InspectionServiceInterface;
 
 class ImportService
@@ -43,8 +43,8 @@ class ImportService
      * create a multimedia object
      * with the media package metadata
      *
-     * @param string    $id
-     * @param bool      $invert
+     * @param string $id
+     * @param bool   $invert
      */
     public function importRecording($id, $invert = false)
     {
@@ -130,8 +130,10 @@ class ImportService
             }
 
             $multimediaObject = $this->mmsService->updateMultimediaObject($multimediaObject);
+
             return true;
         }
+
         return false;
     }
 
@@ -162,7 +164,6 @@ class ImportService
 
         return $series;
     }
-
 
     public function getMediaPackageField($mediaFields = array(), $field = '')
     {
@@ -210,7 +211,7 @@ class ImportService
 
         $url = $this->getMediaPackageField($galicasterTrack, 'url');
         if ($url) {
-            $track->setUrl($this->client->getHost() . $url);
+            $track->setUrl($this->client->getHost().$url);
             //$track->setPath($this->client->getHost() . $url);
         }
 
@@ -280,7 +281,7 @@ class ImportService
             if ($type == 'presenter/search+preview') {
                 $tags = $this->getMediaPackageField($itemAttachment, 'tags');
                 $url = $this->getMediaPackageField($itemAttachment, 'url');
-                $url = $this->client->getHost() . $url;
+                $url = $this->client->getHost().$url;
                 if ($tags || $url) {
                     $pic = new Pic();
                     if ($tags) {
