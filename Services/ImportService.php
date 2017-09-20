@@ -81,6 +81,8 @@ class ImportService
             $properties = $this->getMediaPackageField($mediaPackage, 'id');
             if ($properties) {
                 $multimediaObject->setProperty('galicaster', $properties);
+                //Needed for publishing MultiStream videos
+                $multimediaObject->setProperty('opencast', $properties);
             }
             $multimediaObject->setProperty('opencastinvert', boolval($invert));
 

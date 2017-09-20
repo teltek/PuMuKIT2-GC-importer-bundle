@@ -18,14 +18,15 @@ class ClientService
         $this->login();
     }
 
-    public function getMediaPackages()
+    public function getMediaPackages($query, $limit = 10, $offset = 0)
     {
-        $mp = $this->decodeJson($this->request($this->host.'/repository'));
+        $mp = $this->decodeJson($this->request($this->host.'/repository/list?'.($query ? 'q='.urlencode($query).'&' : '').'limit='.$limit.'&offset='.$offset));
         if (!$mp) {
             throw new \Exception('Error getting MediaPackages');
         }
         $return = array();
-        foreach ($mp as $media) {
+        array_push($return, $mp['total']);
+        foreach ($mp['results'] as $media) {
             array_push($return, $media);
         }
 

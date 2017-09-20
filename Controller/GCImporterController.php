@@ -23,22 +23,19 @@ class GCImporterController extends Controller
         if (!$this->has('pumukit_gcimporter.client')) {
             throw new \Exception('GCImporterBundle not configured');
         }
+        $limit = 10;
+        $page = $request->get('page', 1);
+
         $client = $this->get('pumukit_gcimporter.client');
-        $mp = $client->getMediaPackages();
         $this->get('session')->set('gchost', $client->getHost());
         $criteria = $this->getCriteria($request);
-        if (isset($criteria['name'])) {
-            $mp =
-                array_filter($mp, function ($e) use ($criteria) {
-                    return strpos($e['title'], $criteria['name']->regex) !== false;
-                });
-        }
-        $adapter = new FixedAdapter(count($mp), $mp);
+        $mp = $client->getMediaPackages((isset($criteria['name'])) ? $criteria['name']->regex : '', $limit, $limit * ($page - 1));
+
+        $adapter = new FixedAdapter($mp[0], array_slice($mp, 1));
         $pagerfanta = new Pagerfanta($adapter);
 
-        //$pagerfanta->setAllowOutOfRangePages(false);
-        $pagerfanta->setMaxPerPage(10);
-        $pagerfanta->setCurrentPage($request->get('page', 1));
+        $pagerfanta->setMaxPerPage($limit);
+        $pagerfanta->setCurrentPage($page);
         $repository_multimediaobjects = $this->get('doctrine_mongodb')->getRepository('PumukitSchemaBundle:MultimediaObject');
         $currentPageGalicasterIds = array();
         foreach ($mp as $mediaPackage) {
