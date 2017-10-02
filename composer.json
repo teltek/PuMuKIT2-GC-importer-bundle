@@ -1,0 +1,33 @@
+{
+    "name": "teltek/pmk2-gc-importer-bundle",
+    "type": "symfony-bundle",
+    "description": "GC Importer Bundle",
+    "keywords": [
+        "symfony2",
+        "bundle",
+        "pumukit",
+        "pumukit2",
+        "teltek",
+        "galicaster",
+        "gc"
+    ],
+    "homepage": "https://github.com/teltek/PuMuKIT2-GC-importer-bundle",
+    "license": "Copyright",
+    "authors": [
+        {
+            "name": "Teltek Team",
+            "homepage": "http://teltek.es"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "symfony/framework-bundle": "~2.0",
+        "twig/twig": "~1.5",
+        "pumukit/pumukit2": ">=2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pumukit\\GCImporterBundle\\": ""
+        }
+    }
+}
