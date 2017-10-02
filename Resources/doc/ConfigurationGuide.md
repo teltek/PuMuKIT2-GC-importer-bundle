@@ -12,7 +12,7 @@ This is the GalicasterPRO Importer  Bundle Configuration Guide. Check our [READM
 Add your GC Web Panel configuration to your `app/config/parameters_deploy.yml` file:
 
 ```
-pumukit_opencast:
+pumukit_gc_importer:
     host: 'http://web_panel_url.com'
     username: 'web_panel_username'
     password: 'web_panel_password'
