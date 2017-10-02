@@ -2,8 +2,11 @@
 With this Bundle your GalicasterPRO mediapackages can be imported and published into your PuMuKIT Web TV Portal.
 
 In order to use it, it must be downloaded, configured and installed.
-
-1. Install the bundle by executing the following command.
+1. Download the bundle:
+```bash
+composer require teltek/pmk2-gc-importer-bundle
+```
+2. Install the bundle by executing the following command.
 ```bash
 php app/console pumukit:install:bundle Pumukit/GCImporterBundle/PumukitGCImporterBundle
 ```
