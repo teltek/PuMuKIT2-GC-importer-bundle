@@ -1,0 +1,4 @@
+pumukit_gc_importer:
+    resource: "@PumukitGCImporterBundle/Controller/"
+    type:     annotation
+    prefix:   /
