@@ -35,7 +35,8 @@ class PumukitGCImporterExtension extends Extension
               ->register('pumukit_gcimporter.client', "Pumukit\GCImporterBundle\Services\ClientService")
               ->addArgument($config['host'])
               ->addArgument($config['username'])
-              ->addArgument($config['password']);
+              ->addArgument($config['password'])
+              ->addArgument($config['legacy']);
         $container
               ->register('pumukit_gcimporter.import', "Pumukit\GCImporterBundle\Services\ImportService")
               ->addArgument(new Reference('doctrine_mongodb.odm.document_manager'))

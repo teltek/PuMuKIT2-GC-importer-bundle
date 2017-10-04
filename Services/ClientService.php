@@ -8,26 +8,40 @@ class ClientService
     private $username;
     private $password;
     private $cookie;
+    private $legacy;
 
-    public function __construct($host = '', $username = '', $password = '')
+    public function __construct($host = '', $username = '', $password = '', $legacy = false)
     {
         //Comprobar init_curl??
         $this->host = ('/' == substr($host, -1)) ? substr($host, 0, -1) : $host;
         $this->username = $username;
         $this->password = $password;
+        $this->legacy = $legacy;
         $this->login();
     }
 
     public function getMediaPackages($query, $limit = 10, $offset = 0)
     {
-        $mp = $this->decodeJson($this->request($this->host.'/repository/list?'.($query ? 'q='.urlencode($query).'&' : '').'limit='.$limit.'&offset='.$offset));
-        if (!$mp) {
+        $mp;
+        if (!$this->legacy) {
+            $mp = $this->decodeJson($this->request($this->host.'/repository/list?'.($query ? 'q='.urlencode($query).'&' : '').'limit='.$limit.'&offset='.$offset));
+        } else {
+            $mp = $this->decodeJson($this->request($this->host.'/repository'));
+        }
+        if (!isset($mp)) {
             throw new \Exception('Error getting MediaPackages');
         }
-        $return = array();
-        array_push($return, $mp['total']);
-        foreach ($mp['results'] as $media) {
-            array_push($return, $media);
+
+        $return;
+        if (!$this->legacy) {
+            $return = array();
+            array_push($return, $mp['total']);
+            foreach ($mp['results'] as $media) {
+                array_push($return, $media);
+            }
+        } else {
+            $return = array(count($mp));
+            $return = array_merge($return, $mp);
         }
 
         return $return;
@@ -98,6 +112,9 @@ class ClientService
 
     private function decodeJson($jsonString = '')
     {
+        if ($jsonString === '[]') {
+            return array();
+        }
         $decode = json_decode($jsonString, true);
         if (!($decode)) {
             throw new \Exception('JSON decoding error');

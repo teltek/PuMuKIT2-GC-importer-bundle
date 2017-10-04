@@ -22,6 +22,9 @@ Mandatory:
    - `username` is the name of the account used to operate the GC Web Panel.
    - `password` is the password for the account used to operate the GC Web.
 
+Opcional:
+   - `legacy` If false, MMObjects are shown paginated (Default: false). Only use `legacy: false` if your GC PRO is in 2.x
+
 ## 2. Cron tool
 
 List of PuMuKIT commands that must be configured with the cron tool.

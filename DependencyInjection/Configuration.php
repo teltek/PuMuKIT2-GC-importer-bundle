@@ -37,6 +37,10 @@ class Configuration implements ConfigurationInterface
               ->isRequired()
               ->info('Galicaster Web Panel Password.')
             ->end()
+            ->booleanNode('legacy')
+              ->defaultFalse()
+              ->info('If true, MMObjects are shown without pagination.')
+            ->end()
           ->end()
         ;
 
