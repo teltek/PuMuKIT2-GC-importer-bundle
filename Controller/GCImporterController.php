@@ -5,6 +5,7 @@ namespace Pumukit\GCImporterBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Pagerfanta\Adapter\FixedAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,7 @@ class GCImporterController extends Controller
     /**
      * @Route("/gcimporter", name="pumukit_gcimporter")
      * @Template()
+     * @Security("is_granted('ROLE_ACCESS_GC_IMPORTER')")
      */
     public function indexAction(Request $request)
     {
@@ -53,6 +55,7 @@ class GCImporterController extends Controller
     /**
      * @Route("/gcimporter/import/{id}", name="pumukit_gcimporter_import")
      * @Template()
+     * @Security("is_granted('ROLE_ACCESS_GC_IMPORTER')")
      */
     public function importAction($id, Request $request)
     {
