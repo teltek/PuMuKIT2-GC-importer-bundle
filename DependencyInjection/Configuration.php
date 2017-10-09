@@ -4,6 +4,7 @@ namespace Pumukit\GCImporterBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 
 /**
  * This is the class that validates and merges configuration from your app/config files.
@@ -27,6 +28,14 @@ class Configuration implements ConfigurationInterface
           ->children()
             ->scalarNode('host')
               ->isRequired()
+              ->validate()
+              ->always(function($v) {
+                    if (strpos($v,'http://') === 0 || strpos($v,'https://') === 0) {
+                      return $v;
+                    }
+                    throw new InvalidTypeException('Host URL must start with http:// or https://');
+                  })
+              ->end()
               ->info('Galicaster Web Panel URL.')
             ->end()
             ->scalarNode('username')
