@@ -24,19 +24,19 @@ class GCRemoverCommand extends ContainerAwareCommand
         $dm = $this->getContainer()->get('doctrine_mongodb')->getManager();
         $trackservice = $this->getContainer()->get('pumukitschema.track');
         $multimediaobjectsRepo = $dm->getRepository('PumukitSchemaBundle:MultimediaObject');
-        $shared_path = $input->getArgument('shared_path');
-        $shared_path = ('/' == substr($shared_path, -1)) ? $shared_path : $shared_path.'/';
+        $sharedPath = $input->getArgument('shared_path');
+        $sharedPath = ('/' == substr($sharedPath, -1)) ? $sharedPath : $sharedPath.'/';
         if ($input->getOption('id')) {
             $multimediaobject = $multimediaobjectsRepo->findOneBy(array('properties.galicaster' => $input->getOption('id')));
-            $this->check($multimediaobject, $shared_path.$input->getOption('id'));
+            $this->check($multimediaobject, $sharedPath.$input->getOption('id'));
         } else {
-            $dirs = scandir($shared_path);
+            $dirs = scandir($sharedPath);
             foreach ($dirs as $dir) {
                 if ($dir == '.' || $dir == '..') {
                     continue;
                 }
                 $multimediaobject = $multimediaobjectsRepo->findOneBy(array('properties.galicaster' => $dir));
-                $this->check($multimediaobject, $shared_path.$dir);
+                $this->check($multimediaobject, $sharedPath.$dir);
             }
         }
     }
