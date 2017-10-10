@@ -49,7 +49,15 @@ class GCImporterController extends Controller
             ->getQuery()
             ->execute();
 
-        return array('mediaPackages' => $pagerfanta, 'multimediaObjects' => $repo);
+        $series = $request->get('series', null);
+        $seriesArray = array();
+        if ($series) {
+            $seriesRepo = $this->get('doctrine_mongodb')->getRepository('PumukitSchemaBundle:Series');
+            array_push($seriesArray, $series); // Series ID
+            array_push($seriesArray, $seriesRepo->find($series)->getTitle()); // Series Title
+        }
+
+        return array('mediaPackages' => $pagerfanta, 'multimediaObjects' => $repo, 'series' => $seriesArray);
     }
 
     /**
@@ -60,11 +68,11 @@ class GCImporterController extends Controller
     public function importAction($id, Request $request)
     {
         $importService = $this->get('pumukit_gcimporter.import');
-        if (!$importService->importRecording($id, $request->get('invert'))) {
+        if (!$importService->importRecording($id, $request->get('invert'), $request->get('series', null))) {
             throw new \Exception(sprintf('Error Importing MediaPackage %s', $id));
         }
 
-        return $this->redirectToRoute('pumukit_gcimporter');
+        return $this->redirectToRoute('pumukit_gcimporter', array('series' => $request->get('series', null)));
     }
 
     /**

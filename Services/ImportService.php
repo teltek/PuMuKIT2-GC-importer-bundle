@@ -46,20 +46,24 @@ class ImportService
      * @param string $id
      * @param bool   $invert
      */
-    public function importRecording($id, $invert = false)
+    public function importRecording($id, $invert = false, $seriesId = null)
     {
         $mediaPackage = $this->client->getMediaPackage($id);
 
         $seriesRepo = $this->dm->getRepository('PumukitSchemaBundle:Series');
 
-        $seriesGalicasterId = $this->getMediaPackageField($mediaPackage, 'series');
-        if ($seriesGalicasterId) {
-            $series = $seriesRepo->findOneBy(array('properties.opencast' => $seriesGalicasterId));
+        if ($seriesId) {
+            $series = $seriesRepo->find($seriesId);
         } else {
-            $series = $seriesRepo->findOneBy(array('properties.opencast' => 'default'));
-        }
-        if (!$series) {
-            $series = $this->importSeries($mediaPackage);
+            $seriesGalicasterId = $this->getMediaPackageField($mediaPackage, 'series');
+            if ($seriesGalicasterId) {
+                $series = $seriesRepo->findOneBy(array('properties.opencast' => $seriesGalicasterId));
+            } else {
+                $series = $seriesRepo->findOneBy(array('properties.opencast' => 'default'));
+            }
+            if (!$series) {
+                $series = $this->importSeries($mediaPackage);
+            }
         }
 
         $onemultimediaobjects = null;

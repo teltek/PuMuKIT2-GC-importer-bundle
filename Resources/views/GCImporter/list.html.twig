@@ -43,12 +43,12 @@
                 </a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="list_mediaPackage_{{ mediaPackage.id }}">
                   <li>
-                    <a href="{{ path('pumukit_gcimporter_import', {'id': mediaPackage.id}) }}">
+                    <a href="{{ path('pumukit_gcimporter_import', {'id': mediaPackage.id, 'series': series ? series[0] : null}) }}">
                       <i class="mdi-editor-format-align-left"></i>{% trans %}Import{% endtrans %}
                     </a>
                   </li>
                   <li>
-                    <a href="{{ path('pumukit_gcimporter_import', {'id': mediaPackage.id, 'invert': true}) }}">
+                    <a href="{{ path('pumukit_gcimporter_import', {'id': mediaPackage.id, 'series': series ? series[0] : null, 'invert': true}) }}">
                       <i class="mdi-editor-format-align-right"></i>{% trans %}Import inverted{% endtrans %}
                     </a>
                   </li>
