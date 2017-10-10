@@ -9,6 +9,9 @@
         <service id="pumukit_gc_importer.menu" class="Pumukit\GCImporterBundle\Services\MenuService">
             <tag name="pumukitnewadmin.menuitem"/>
         </service>
+        <service id="pumukit_gc_importer.mmobjbutton" class="Pumukit\GCImporterBundle\Services\SeriesButtonService">
+          <tag name="pumukitnewadmin.mmobjlistbuttonsitem" />
+        </service>
     </services>
 
 </container>

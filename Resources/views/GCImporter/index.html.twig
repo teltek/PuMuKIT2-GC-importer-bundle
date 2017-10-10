@@ -3,6 +3,7 @@
 {% block body %}
 
 <h1>{{"Galicaster Importer" | trans}}</h1>
+{% if series %}<h3>{{"Importing to" | trans}} {{series[1]}}</h3>{% endif %}
 
 <div class="row">
   <div class="col-md-10">
