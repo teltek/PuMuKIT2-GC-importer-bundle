@@ -150,6 +150,10 @@
         <source>Importing to</source>
         <target>Importando a</target>
       </trans-unit>
+      <trans-unit id="befcc65c57d8bf87d3b1cc3f52dcfacd" resname="There are no delivery tracks in this MediaPackage">
+        <source>There are no delivery tracks in this MediaPackage</source>
+        <target>No hay tracks de tipo delivery en este MediaPackage</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
