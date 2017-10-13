@@ -30,7 +30,7 @@ class PumukitGCImporterExtension extends Extension
         $permissions = array(array('role' => 'ROLE_ACCESS_GC_IMPORTER', 'description' => 'GC Importer'));
         $newPermissions = array_merge($container->getParameter('pumukitschema.external_permissions'), $permissions);
         $container->setParameter('pumukitschema.external_permissions', $newPermissions);
-        
+
         $container
               ->register('pumukit_gcimporter.client', "Pumukit\GCImporterBundle\Services\ClientService")
               ->addArgument($config['host'])

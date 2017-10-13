@@ -28,10 +28,20 @@ class GCImporterController extends Controller
         $limit = 10;
         $page = $request->get('page', 1);
 
-        $client = $this->get('pumukit_gcimporter.client');
+        try {
+            $client = $this->get('pumukit_gcimporter.client');
+        } catch (\Exception $exception) {
+            return array('error' => $exception->getMessage());
+        }
+
         $this->get('session')->set('gchost', $client->getHost());
         $criteria = $this->getCriteria($request);
-        $mp = $client->getMediaPackages((isset($criteria['name'])) ? $criteria['name']->regex : '', $limit, $limit * ($page - 1));
+
+        try {
+            $mp = $client->getMediaPackages((isset($criteria['name'])) ? $criteria['name']->regex : '', $limit, $limit * ($page - 1));
+        } catch (\Exception $exception) {
+            return array('error' => $exception->getMessage());
+        }
 
         $adapter = new FixedAdapter($mp[0], array_slice($mp, 1));
         $pagerfanta = new Pagerfanta($adapter);

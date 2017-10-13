@@ -29,12 +29,12 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('host')
               ->isRequired()
               ->validate()
-              ->always(function($v) {
-                    if (strpos($v,'http://') === 0 || strpos($v,'https://') === 0) {
+              ->always(function ($v) {
+                  if (strpos($v, 'http://') === 0 || strpos($v, 'https://') === 0) {
                       return $v;
-                    }
-                    throw new InvalidTypeException('Host URL must start with http:// or https://');
-                  })
+                  }
+                  throw new InvalidTypeException('Host URL must start with http:// or https://');
+              })
               ->end()
               ->info('Galicaster Web Panel URL.')
             ->end()
