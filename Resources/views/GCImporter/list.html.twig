@@ -80,9 +80,11 @@
           <td>
             {{ mediaPackage.start|date("d-m-Y") }}
           </td>
-          {% if "presentation/delivery" not in mediaPackage.sizeByFlavor|keys and "presenter/delivery" not in mediaPackage.sizeByFlavor|keys %}
-            <td><i class="glyphicon glyphicon-exclamation-sign" style="color: red;" title="{% trans %}There are no delivery tracks in this MediaPackage{% endtrans %}"></i></td>
-          {% endif %}
+          <td>
+            {% if "presentation/delivery" not in mediaPackage.sizeByFlavor|keys and "presenter/delivery" not in mediaPackage.sizeByFlavor|keys %}
+              <i class="glyphicon glyphicon-exclamation-sign" style="color: red;" title="{% trans %}There are no delivery tracks in this MediaPackage{% endtrans %}"></i>
+            {% endif %}
+          </td>
         </tr>
         {% endfor %}
       </tbody>
