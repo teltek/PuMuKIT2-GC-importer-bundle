@@ -81,6 +81,17 @@ class ImportService
             if ($title) {
                 $multimediaObject->setTitle($title);
             }
+            foreach ($this->otherLocales as $locale) {
+                $multimediaObject->setTitle($title, $locale);
+            }
+
+            $description = $this->getMediaPackageField($mediaPackage, 'description');
+            if ($description) {
+                $multimediaObject->setDescription($description);
+            }
+            foreach ($this->otherLocales as $locale) {
+                $multimediaObject->setDescription($description, $locale);
+            }
 
             $properties = $this->getMediaPackageField($mediaPackage, 'id');
             if ($properties) {
@@ -100,10 +111,6 @@ class ImportService
                 $multimediaObject->setProperty('opencastlanguage', strtolower($language));
             } else {
                 $multimediaObject->setProperty('opencastlanguage', \Locale::getDefault());
-            }
-
-            foreach ($this->otherLocales as $locale) {
-                $multimediaObject->setTitle($title, $locale);
             }
 
             $media = $this->getMediaPackageField($mediaPackage, 'media');
