@@ -23,6 +23,8 @@ class GCImporterCommand extends ContainerAwareCommand
     {
         $dm = $this->getContainer()->get('doctrine_mongodb')->getManager();
         $trackservice = $this->getContainer()->get('pumukitschema.track');
+        $jobService = $this->getContainer()->get('pumukitencoder.job');
+
         $multimediaobjectsRepo = $dm->getRepository('PumukitSchemaBundle:MultimediaObject');
         $sharedPath = $input->getArgument('shared_path');
         $sharedPath = ('/' == substr($sharedPath, -1)) ? $sharedPath : $sharedPath.'/';
@@ -38,6 +40,16 @@ class GCImporterCommand extends ContainerAwareCommand
                         $this->import($track, $sharedPath.$multimediaobject->getProperty('galicaster').'/'.$track->getId(), $output);
                         $trackservice->updateTrackInMultimediaObject($multimediaobject, $track);
                     }
+                }
+                if (!$multimediaobject->getTrackWithTag('presenter/delivery') && $multimediaobject->getTrackWithTag('presenter/source')) {
+                    $sourceTrack = $multimediaobject->getTrackWithTag('presenter/source');
+                    $pathFile = $sharedPath.$multimediaobject->getProperty('galicaster').'/'.$sourceTrack->getId().'/'.basename($sourceTrack->getUrl());
+                    $jobService->addJob($pathFile, 'delivery_mp4_camera', 2, $multimediaobject, $sourceTrack->getLanguage(), array(), array(), 0, 0);
+                }
+                if (!$multimediaobject->getTrackWithTag('presentation/delivery') && $multimediaobject->getTrackWithTag('presentation/source')) {
+                    $sourceTrack = $multimediaobject->getTrackWithTag('presentation/source');
+                    $pathFile = $sharedPath.$multimediaobject->getProperty('galicaster').'/'.$sourceTrack->getId().'/'.basename($sourceTrack->getUrl());
+                    $jobService->addJob($pathFile, 'delivery_mp4_screen', 2, $multimediaobject, $sourceTrack->getLanguage(), array(), array(), 0, 0);
                 }
             }
         }
